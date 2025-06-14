@@ -6,7 +6,9 @@ import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
 import io.jsonwebtoken.io.Decoders;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JwtUtil {
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; // 10 hours
     private final Key key;

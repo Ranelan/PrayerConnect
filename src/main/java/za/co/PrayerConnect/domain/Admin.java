@@ -64,6 +64,10 @@ public class Admin extends User {
                 '}';
     }
 
+    public void setId(Long id) {
+
+    }
+
     public static class AdminBuilder {
         private Long id; // Optional: only set if updating
         private String fullName;

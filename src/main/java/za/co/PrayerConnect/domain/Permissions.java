@@ -7,5 +7,4 @@ public enum Permissions {
     DELETE_CONTENT,
     VIEW_USER,
     APPROVE_CONTENT,
-    REJECT_CONTENT,
 }

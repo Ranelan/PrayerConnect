@@ -56,6 +56,10 @@ public class RegularUser extends User{
                 '}';
     }
 
+    public void setIsBlocked(boolean b) {
+
+    }
+
     public static class RegularUserBuilder {
         private Long id;
         private String fullName;
