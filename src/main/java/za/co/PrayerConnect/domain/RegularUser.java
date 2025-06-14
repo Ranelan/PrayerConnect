@@ -1,19 +1,16 @@
 package za.co.PrayerConnect.domain;
 
-
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("REGULAR_USER")
-public class RegularUser extends User{
+public class RegularUser extends User {
 
     private boolean isBlocked = false;
 
-
     public RegularUser() {
         super();
-
     }
 
     public RegularUser(Long id, String fullName, String email, String password, int age, boolean isBlocked) {
@@ -30,24 +27,12 @@ public class RegularUser extends User{
         this.isBlocked = builder.isBlocked;
     }
 
-    public Long getId() {
-        return getId();
-    }
-    public String getFullName() {
-        return getFullName();
-    }
-    public String getEmail() {
-        return getEmail();
-    }
-    public String getPassword() {
-        return getPassword();
-    }
-    public int getAge() {
-        return getAge();
-    }
-
     public boolean isBlocked() {
         return isBlocked;
+    }
+
+    public void setIsBlocked(boolean blocked) {
+        this.isBlocked = blocked;
     }
 
     @Override
@@ -60,10 +45,6 @@ public class RegularUser extends User{
                 ", password='" + password + '\'' +
                 ", age=" + age +
                 '}';
-    }
-
-    public void setIsBlocked(boolean b) {
-
     }
 
     public static class RegularUserBuilder {
@@ -99,26 +80,23 @@ public class RegularUser extends User{
             return this;
         }
 
-        public RegularUserBuilder setIsBlocked(boolean blocked) {
-            this.isBlocked = blocked;
+        public RegularUserBuilder setIsBlocked(boolean isBlocked) {
+            this.isBlocked = isBlocked;
             return this;
         }
 
-
-        public RegularUserBuilder copy(RegularUser regularUser) {
-            this.id = regularUser.getId();
-            this.fullName = regularUser.getFullName();
-            this.email = regularUser.getEmail();
-            this.password = regularUser.getPassword();
-            this.age = regularUser.getAge();
-            this.isBlocked = regularUser.isBlocked();
+        public RegularUserBuilder copy(RegularUser user) {
+            this.id = user.id;
+            this.fullName = user.fullName;
+            this.email = user.email;
+            this.password = user.password;
+            this.age = user.age;
+            this.isBlocked = user.isBlocked;
             return this;
         }
 
         public RegularUser build() {
             return new RegularUser(this);
         }
-
-
     }
 }

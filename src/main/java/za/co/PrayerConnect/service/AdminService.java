@@ -21,6 +21,7 @@ public class AdminService implements IAdminService {
 
     @Override
     public Admin save(Admin entity) {
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         return adminRepository.save(entity);
     }
 

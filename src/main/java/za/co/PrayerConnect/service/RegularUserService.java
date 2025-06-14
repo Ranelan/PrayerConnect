@@ -57,6 +57,7 @@ public class RegularUserService implements IRegularUserService {
 
     @Override
     public RegularUser save(RegularUser entity) {
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         return regularUserRepository.save(entity);
     }
 
