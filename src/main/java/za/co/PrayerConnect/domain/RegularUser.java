@@ -1,5 +1,11 @@
 package za.co.PrayerConnect.domain;
 
+
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("REGULAR_USER")
 public class RegularUser extends User{
 
     private boolean isBlocked = false;

@@ -1,12 +1,12 @@
 package za.co.PrayerConnect.domain;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity
+@DiscriminatorValue("Admin")
 public class Admin extends User {
 
     private String adminCode;
