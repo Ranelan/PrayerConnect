@@ -12,14 +12,15 @@ public class PrayerRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long contentId;
     private String title;
+    @Lob // message has more than 4000 characters expected.
     private String message;
     private LocalDateTime dateSubmitted;
-    private boolean isAnonymous;
-    @ElementCollection(targetClass = ApprovalStatus.class)
+    private boolean isAnonymous = false;
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private List<ApprovalStatus> approvalStatuses;
     private LocalDateTime reviewedAt;
-    //Admin
+    @Column(length = 1000)
     private String reviewComment;
 
 
@@ -34,7 +35,7 @@ public class PrayerRequest {
     public PrayerRequest() {
     }
 
-    public PrayerRequest(Long contentId, String title, String message, LocalDateTime dateSubmitted, boolean isAnonymous, List<ApprovalStatus> approvalStatuses, LocalDateTime reviewedAt, String reviewComment, User user) {
+    public PrayerRequest(Long contentId, String title, String message, LocalDateTime dateSubmitted, boolean isAnonymous, List<ApprovalStatus> approvalStatuses, LocalDateTime reviewedAt, String reviewComment, User user, Admin admin) {
         this.contentId = contentId;
         this.title = title;
         this.message = message;
@@ -44,6 +45,7 @@ public class PrayerRequest {
         this.reviewedAt = reviewedAt;
         this.reviewComment = reviewComment;
         this.user = user;
+        this.admin = admin;
 
     }
 
@@ -56,6 +58,8 @@ public class PrayerRequest {
         this.approvalStatuses = prayerRequestBuilder.approvalStatuses;
         this.reviewedAt = prayerRequestBuilder.reviewedAt;
         this.reviewComment = prayerRequestBuilder.reviewComment;
+        this.user = prayerRequestBuilder.user;
+        this.admin = prayerRequestBuilder.admin;
     }
 
     public Long getContentId() {
@@ -95,9 +99,13 @@ public class PrayerRequest {
         return user;
     }
 
+    public Admin getAdmin() {
+        return admin;
+    }
+
     @Override
     public String toString() {
-        return "PrayerRequest{" +
+        return "PrayerRequestService{" +
                 "contentId=" + contentId +
                 ", title='" + title + '\'' +
                 ", message='" + message + '\'' +
@@ -107,6 +115,7 @@ public class PrayerRequest {
                 ", reviewedAt=" + reviewedAt +
                 ", reviewComment='" + reviewComment + '\'' +
                 ", user=" + user +
+                ", admin=" + admin +
                 '}';
     }
 
@@ -120,6 +129,8 @@ public class PrayerRequest {
         private LocalDateTime reviewedAt;
         //Admin
         private String reviewComment;
+        private User user;
+        private Admin admin;
 
 
 
@@ -163,6 +174,14 @@ public class PrayerRequest {
             this.reviewComment = reviewComment;
             return this;
         }
+        public PrayerRequestBuilder setUser(User user) {
+            this.user = user;
+            return this;
+        }
+        public PrayerRequestBuilder setAdmin(Admin admin) {
+            this.admin = admin;
+            return this;
+        }
 
         public PrayerRequestBuilder copy(PrayerRequest prayerRequest) {
             this.contentId = prayerRequest.contentId;
@@ -173,11 +192,17 @@ public class PrayerRequest {
             this.approvalStatuses = prayerRequest.approvalStatuses;
             this.reviewedAt = prayerRequest.reviewedAt;
             this.reviewComment = prayerRequest.reviewComment;
+            this.user = prayerRequest.user;
+            this.admin = prayerRequest.admin;
             return this;
         }
 
         public PrayerRequest build() {
+            if (this.dateSubmitted == null) {
+                this.dateSubmitted = LocalDateTime.now(); // Automatically set if not provided
+            }
             return new PrayerRequest(this);
         }
+
     }
 }

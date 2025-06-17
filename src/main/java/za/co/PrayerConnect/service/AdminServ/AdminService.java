@@ -1,12 +1,19 @@
-package za.co.PrayerConnect.service;
+package za.co.PrayerConnect.service.AdminServ;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import za.co.PrayerConnect.domain.Admin;
+import za.co.PrayerConnect.domain.ApprovalStatus;
+import za.co.PrayerConnect.domain.PrayerRequest;
 import za.co.PrayerConnect.domain.RegularUser;
 import za.co.PrayerConnect.repository.AdminRepository;
+import za.co.PrayerConnect.service.PrayerRequestServ.PrayerRequestService;
+import za.co.PrayerConnect.service.RegularUserServ.RegularUserService;
 
+
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -18,10 +25,19 @@ public class AdminService implements IAdminService {
     private AdminRepository adminRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PrayerRequestService prayerRequestService;
 
     @Override
     public Admin save(Admin entity) {
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        if (entity.getLastLogin() == null) {
+            entity = new Admin.AdminBuilder()
+                    .copy(entity)
+                    .setLastLogin(LocalDateTime.now())
+                    .build();
+        }
+
         return adminRepository.save(entity);
     }
 
@@ -94,21 +110,57 @@ public class AdminService implements IAdminService {
 
     @Override
     public void deleteContent(Long contentId) {
-        // Implementation for deleting content by contentId
-        // This method should interact with the content repository to delete the content
-        // For now, we can leave it empty or throw an UnsupportedOperationException
-        throw new UnsupportedOperationException("Method not implemented yet");
+        Optional<PrayerRequest> optionalRequest = prayerRequestService.findByContentId(contentId);
 
+        if (optionalRequest.isPresent()) {
+            prayerRequestService.deleteById(contentId);
+        } else {
+            throw new RuntimeException("Cannot delete. Prayer request not found with contentId: " + contentId);
+        }
     }
+
 
     @Override
     public void approveContent(Long contentId) {
-        // Implementation for approving content by contentId
-        // This method should interact with the content repository to approve the content
-        // For now, we can leave it empty or throw an UnsupportedOperationException
-        throw new UnsupportedOperationException("Method not implemented yet");
+        Optional<PrayerRequest> optionalRequest = prayerRequestService.findByContentId(contentId);
 
+        if (optionalRequest.isPresent()) {
+            PrayerRequest existing = optionalRequest.get();
+
+            PrayerRequest updated = new PrayerRequest.PrayerRequestBuilder()
+                    .copy(existing)
+                    .setApprovalStatuses(Collections.singletonList(ApprovalStatus.APPROVED))
+                    .setReviewedAt(java.time.LocalDateTime.now())
+                    .setReviewComment("Approved by admin")
+                    .build();
+
+            prayerRequestService.save(updated);
+        } else {
+            throw new RuntimeException("Prayer request not found with contentId: " + contentId);
+        }
     }
+
+    @Override
+    public void rejectContent(Long contentId) {
+        Optional<PrayerRequest> optionalRequest = prayerRequestService.findByContentId(contentId);
+
+        if (optionalRequest.isPresent()) {
+            PrayerRequest existing = optionalRequest.get();
+
+            PrayerRequest rejected = new PrayerRequest.PrayerRequestBuilder()
+                    .copy(existing)
+                    .setApprovalStatuses(Collections.singletonList(ApprovalStatus.REJECTED))
+                    .setReviewedAt(java.time.LocalDateTime.now())
+                    .setReviewComment("Rejected by admin for not having appropriate content, please re write") // Optional: Customize this
+                    .build();
+
+            prayerRequestService.save(rejected);
+        } else {
+            throw new RuntimeException("Prayer request not found with contentId: " + contentId);
+        }
+    }
+
+
 
     @Override
     public Optional<RegularUser> getAllUsersByEmail(String email) {

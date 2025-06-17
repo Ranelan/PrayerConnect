@@ -2,12 +2,11 @@ package za.co.PrayerConnect.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import za.co.PrayerConnect.domain.Admin;
 import za.co.PrayerConnect.domain.RegularUser;
-import za.co.PrayerConnect.service.AdminService;
-import za.co.PrayerConnect.service.RegularUserService;
+import za.co.PrayerConnect.service.AdminServ.AdminService;
+import za.co.PrayerConnect.service.RegularUserServ.RegularUserService;
 import za.co.PrayerConnect.util.JwtUtil;
 
 @RestController
@@ -140,6 +139,39 @@ public class AdminController {
         } catch (Exception e) {
             e.printStackTrace(); // Log the error for debugging
             return ResponseEntity.status(500).body("Failed to unblock user: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/approve/{contentId}")
+    public ResponseEntity<String> approveContent(@PathVariable Long contentId) {
+        try {
+            adminService.approveContent(contentId);
+            return ResponseEntity.ok("Content approved successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("Error approving content: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/reject/{contentId}")
+    public ResponseEntity<String> rejectContent(@PathVariable Long contentId) {
+        try {
+            adminService.rejectContent(contentId);
+            return ResponseEntity.ok("Content rejected successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("Error rejecting content: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/deleteContent/{contentId}")
+    public ResponseEntity<String> deleteContent(@PathVariable Long contentId) {
+        try {
+            adminService.deleteContent(contentId);
+            return ResponseEntity.ok("Content deleted successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("Error deleting content: " + e.getMessage());
         }
     }
 

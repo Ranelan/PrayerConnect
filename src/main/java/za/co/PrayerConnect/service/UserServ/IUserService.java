@@ -1,4 +1,4 @@
-package za.co.PrayerConnect.service;
+package za.co.PrayerConnect.service.UserServ;
 
 import za.co.PrayerConnect.domain.User;
 

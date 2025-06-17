@@ -10,7 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import za.co.PrayerConnect.service.UserService;
+import za.co.PrayerConnect.service.UserServ.UserService;
 
 import za.co.PrayerConnect.util.JwtUtil;
 
@@ -62,5 +62,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         System.out.println("JwtAuthFilter checking path: " + path);
         return path.startsWith("/api/admins/create") ||
                 path.startsWith("/api/admins/authenticate");
+//                || path.startsWith("/api/prayer-requests/**");
     }
 }

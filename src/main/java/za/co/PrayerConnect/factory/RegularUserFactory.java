@@ -10,8 +10,7 @@ public class RegularUserFactory {
         if(Helper.isNullOrEmpty(fullName)||
             !Helper.isValidEmail(email)||
                 !Helper.isValidPassword(password)||
-                !Helper.isValidAge(age)||
-                !Helper.isBlocked(isBlocked)) {
+                !Helper.isValidAge(age)) {
             return null;
     }
 

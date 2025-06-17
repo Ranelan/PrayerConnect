@@ -33,7 +33,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/admins/**",
-                                "/api/regular-users/**"
+                                "/api/regular-users/**",
+                                "/api/prayerRequest/**"
                                 ).permitAll()
                         .anyRequest().authenticated()
                 )

@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.PrayerConnect.domain.RegularUser;
-import za.co.PrayerConnect.service.RegularUserService;
+import za.co.PrayerConnect.service.RegularUserServ.RegularUserService;
 import za.co.PrayerConnect.util.JwtUtil;
 
 import java.util.Collections;

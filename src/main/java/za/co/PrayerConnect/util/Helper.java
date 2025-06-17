@@ -14,9 +14,9 @@ public class Helper {
         return str == null || str.isEmpty();
     }
 
-    public static boolean isAnonymousOrNot(boolean anonymous) {
-        return anonymous;
-    }
+//    public static boolean isAnonymousOrNot(boolean anonymous) {
+//        return anonymous;
+//    }
 
     public static boolean isValidDateTime(java.time.LocalDateTime createdAt) {
         return createdAt != null && !createdAt.isAfter(java.time.LocalDateTime.now());
@@ -45,9 +45,7 @@ public class Helper {
         return message != null && message.length() >= 10;
     }
 
-    public static boolean isBlocked(boolean isBlocked) {
-        return isBlocked;
-    }
+
 
 
 

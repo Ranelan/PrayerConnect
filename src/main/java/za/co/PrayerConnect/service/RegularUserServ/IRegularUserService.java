@@ -1,6 +1,7 @@
-package za.co.PrayerConnect.service;
+package za.co.PrayerConnect.service.RegularUserServ;
 
 import za.co.PrayerConnect.domain.RegularUser;
+import za.co.PrayerConnect.service.IService;
 
 public interface IRegularUserService extends IService<RegularUser, String> {
 

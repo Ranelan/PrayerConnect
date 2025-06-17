@@ -1,4 +1,4 @@
-package za.co.PrayerConnect.service;
+package za.co.PrayerConnect.service.UserServ;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import za.co.PrayerConnect.repository.RegularUserRepository;
 import java.util.Optional;
 
 @Service
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 
 
     private final AdminRepository adminRepository;

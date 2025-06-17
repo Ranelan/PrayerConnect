@@ -131,7 +131,11 @@ public class Admin extends User {
         }
 
         public Admin build() {
+            if (this.lastLogin == null) {
+                this.lastLogin = LocalDateTime.now(); // Automatically set if not provided
+            }
             return new Admin(this);
         }
+
     }
 }

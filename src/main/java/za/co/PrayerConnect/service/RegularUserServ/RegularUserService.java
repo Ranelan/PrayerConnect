@@ -1,4 +1,4 @@
-package za.co.PrayerConnect.service;
+package za.co.PrayerConnect.service.RegularUserServ;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
