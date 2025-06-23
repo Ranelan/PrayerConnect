@@ -6,6 +6,7 @@ import za.co.PrayerConnect.domain.RegularUser;
 import za.co.PrayerConnect.repository.RegularUserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,6 +54,11 @@ public class RegularUserService implements IRegularUserService {
     public RegularUser findByAge(int age) {
         return regularUserRepository.findByAge(age)
                 .orElse(null);
+    }
+
+    @Override
+    public List<RegularUser> findAll() {
+        return regularUserRepository.findAll();
     }
 
     @Override

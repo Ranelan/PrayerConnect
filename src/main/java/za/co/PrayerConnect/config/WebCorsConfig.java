@@ -12,6 +12,7 @@ public class WebCorsConfig implements WebMvcConfigurer {
         registry.addMapping("/**") // allow all endpoints
                 .allowedOrigins("http://localhost:3000") // allow React frontend
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*");
+                .allowedHeaders("*")
+        .allowCredentials(true) ;// allow cookies and credentials;
     }
 }

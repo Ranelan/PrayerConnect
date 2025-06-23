@@ -25,7 +25,7 @@ public class PrayerRequest {
 
 
     @ManyToOne
-    @JoinColumn(name = "user_i", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @ManyToOne

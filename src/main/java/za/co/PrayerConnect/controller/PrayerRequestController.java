@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.PrayerConnect.domain.PrayerRequest;
+import za.co.PrayerConnect.domain.User;
+import za.co.PrayerConnect.dto.PrayerRequestDTO;
+import za.co.PrayerConnect.repository.UserRepository;
 import za.co.PrayerConnect.service.PrayerRequestServ.PrayerRequestService;
 
 import java.util.List;
@@ -15,19 +18,31 @@ public class PrayerRequestController {
 
     @Autowired
     private PrayerRequestService prayerRequestService;
+    @Autowired
+    private UserRepository userRepository;
 
 
     @PostMapping("/create")
-    public ResponseEntity<PrayerRequest> create(@RequestBody PrayerRequest entity) {
-        try{
-            PrayerRequest prayerRequest = prayerRequestService.save(entity);
-            return ResponseEntity.ok(prayerRequest);
-        }
-        catch(Exception e){
-            e.printStackTrace(); // Logs full error in server logs
-            return ResponseEntity.internalServerError().body(null); // Return null or appropriate error response
-        }
+    public ResponseEntity<PrayerRequest> create(@RequestBody PrayerRequestDTO dto) {
+        try {
+            User user = null;
+            if (!dto.isAnonymous() && dto.getUserId() != null) {
+                user = userRepository.findById(dto.getUserId()).orElse(null);
+            }
 
+            PrayerRequest request = new PrayerRequest.PrayerRequestBuilder()
+                    .setTitle(dto.getTitle())
+                    .setMessage(dto.getDetails())
+                    .setAnonymous(dto.isAnonymous())
+                    .setUser(user)
+                    .build();
+
+            PrayerRequest saved = prayerRequestService.save(request);
+            return ResponseEntity.ok(saved);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(null);
+        }
     }
 
     @GetMapping("/findById/{id}")

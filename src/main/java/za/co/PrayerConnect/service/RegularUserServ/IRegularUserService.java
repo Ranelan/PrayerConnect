@@ -3,6 +3,8 @@ package za.co.PrayerConnect.service.RegularUserServ;
 import za.co.PrayerConnect.domain.RegularUser;
 import za.co.PrayerConnect.service.IService;
 
+import java.util.List;
+
 public interface IRegularUserService extends IService<RegularUser, String> {
 
     /**
@@ -23,4 +25,5 @@ public interface IRegularUserService extends IService<RegularUser, String> {
     RegularUser findByEmail(String email);
     RegularUser findByFullName(String fullName);
     RegularUser findByAge(int age);
+    List<RegularUser> findAll();
 }

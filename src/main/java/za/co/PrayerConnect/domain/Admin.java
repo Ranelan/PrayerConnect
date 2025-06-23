@@ -55,7 +55,6 @@ public class Admin extends User {
         return "Admin{" +
                 "adminCode='" + adminCode + '\'' +
                 ", lastLogin=" + lastLogin +
-                ", permissions=" + permissions +
                 ", id=" + id +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +

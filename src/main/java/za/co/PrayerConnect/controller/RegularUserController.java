@@ -91,6 +91,19 @@ public class RegularUserController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllUsers() {
+        try {
+            return ResponseEntity.ok(regularUserService.findAll());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving users");
+        }
+    }
+
+
+
+
 //    @DeleteMapping("/delete/{id}")
 //    public ResponseEntity<String> delete(@PathVariable String id) {
 //        RegularUser user = regularUserService.findById(id);
