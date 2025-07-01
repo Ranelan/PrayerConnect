@@ -15,16 +15,6 @@ public class TestimonyService implements ITestimonyService{
     private TestimonyRepository testimonyRepository;
 
     @Override
-    public Optional<Testimony> findByUserId(Long userId) {
-        return testimonyRepository.findByUserId(userId);
-    }
-
-    @Override
-    public Optional<Testimony> findByContentId(Long contentId) {
-        return Optional.empty();
-    }
-
-    @Override
     public Testimony save(Testimony entity) {
         return testimonyRepository.save(entity);
     }
@@ -58,5 +48,15 @@ public class TestimonyService implements ITestimonyService{
     @Override
     public List<Testimony> findAll() {
         return testimonyRepository.findAll();
+    }
+
+    @Override
+    public List<Testimony> findByUserId(Long userId) {
+        return testimonyRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<Testimony> findByPrayerRequest_ContentId(Long contentId) {
+        return testimonyRepository.findByPrayerRequest_ContentId(contentId);
     }
 }
