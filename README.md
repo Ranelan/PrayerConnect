@@ -1,16 +1,17 @@
 # PrayerConnect
 
-PrayerConnect is a Java Spring Boot application designed to facilitate the submission, review, and management of prayer requests. It provides a secure platform where users can submit prayer requests (optionally anonymously), and administrators can review, comment, and manage these requests.
+PrayerConnect is a Java Spring Boot application designed to facilitate the submission, review, and management of prayer requests and testimonies. It provides a secure platform where users can submit prayer requests and testimonies, which can be reviewed and managed by admins.
 
 ## Features
 
 - **User Roles:** Supports both regular users and admin users, each with distinct permissions and capabilities.
 - **Prayer Requests:** Users can create and submit prayer requests, which can be reviewed and commented on by admins.
-- **Anonymous Submissions:** Users have the option to submit prayer requests anonymously.
-- **Approval Workflow:** Admins can review, comment, and update the approval status of each prayer request.
+- **Testimonies:** Users can submit testimonies, and admins can review and manage them.
+- **Anonymous Submissions:** Users have the option to submit prayer requests and testimonies anonymously.
+- **Approval Workflow:** Admins can review, comment, and update the approval status of each prayer request and testimony.
 - **JWT-based Authentication:** Secure access to endpoints using JSON Web Token (JWT) authentication.
 - **Spring Security Integration:** Configured security with custom authentication filters.
-- **DTO Pattern:** Uses Data Transfer Objects for safely transporting prayer request data.
+- **DTO Pattern:** Uses Data Transfer Objects for safely transporting prayer request and testimony data.
 
 ## Getting Started
 
@@ -53,6 +54,7 @@ PrayerConnect is a Java Spring Boot application designed to facilitate the submi
 
 - **API Endpoints:** (secured with JWT)
   - `/api/prayerRequest/**` — For submitting and retrieving prayer requests
+  - `/api/testimony/**` — For submitting and retrieving testimonies
   - `/api/admins/**` — Admin operations
   - `/api/regular-users/**` — User operations
 
@@ -64,15 +66,18 @@ PrayerConnect is a Java Spring Boot application designed to facilitate the submi
 ## Project Structure
 
 - `src/main/java/za/co/PrayerConnect/` — Main application code
-- `domain/` — Entity classes (e.g., User, Admin, PrayerRequest)
+- `domain/` — Entity classes (e.g., User, Admin, PrayerRequest, Testimony)
 - `dto/` — Data Transfer Objects
 - `config/` — Security and application configuration
 - `service/` — Business logic and service layer
+- `repository/` — Data access layer, including TestimonyRepository
+- `controller/` — Controllers, including TestimonyController
 
 ## Security
 
 - Uses Spring Security and JWT for authentication and authorization.
 - Passwords are encrypted using BCrypt.
+- SecurityConfig updated to allow access to Testimony endpoints.
 
 ## Contributing
 
