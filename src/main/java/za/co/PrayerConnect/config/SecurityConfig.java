@@ -34,7 +34,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/admins/**",
                                 "/api/regular-users/**",
-                                "/api/prayerRequest/**"
+                                "/api/prayerRequest/**",
+                                "/api/testimonies/**"
                                 ).permitAll()
                         .anyRequest().authenticated()
                 )
