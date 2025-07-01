@@ -115,6 +115,9 @@ public class Testimony {
         }
 
         public Testimony build() {
+            if(this.dateSubmitted == null){
+                this.dateSubmitted = LocalDateTime.now();
+            }
             return new Testimony(this);
         }
     }
