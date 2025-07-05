@@ -35,7 +35,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/admins/**",
                                 "/api/regular-users/**",
                                 "/api/prayerRequest/**",
-                                "/api/testimonies/**"
+                                "/api/testimonies/**",
+                                "/api/prayerInteraction/**"
                                 ).permitAll()
                         .anyRequest().authenticated()
                 )
