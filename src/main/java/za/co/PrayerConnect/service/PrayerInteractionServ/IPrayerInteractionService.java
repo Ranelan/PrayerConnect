@@ -6,10 +6,10 @@ import za.co.PrayerConnect.service.IService;
 import java.util.List;
 
 public interface IPrayerInteractionService extends IService<PrayerInteraction, Long> {
-     List<PrayerInteraction> findByContentId(Long contentId);
-        List<PrayerInteraction> findByUserId(Long userId);
-
-        boolean hasUserPrayedForContent(Long userId, Long contentId);
+     List<PrayerInteraction> findByPrayerRequest_ContentId(Long contentId);
+        List<PrayerInteraction> findByUser_Id(Long userId);
+        List<PrayerInteraction> findAll();
+        boolean hasUserPrayedForContent(Long userId, String contentId);
 
 
 }

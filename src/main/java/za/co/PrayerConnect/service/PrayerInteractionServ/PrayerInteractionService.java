@@ -15,19 +15,23 @@ public class PrayerInteractionService implements IPrayerInteractionService{
 
 
     @Override
-    public List<PrayerInteraction> findByContentId(Long contentId) {
-        return prayerInteractionRepository.findByContentId(contentId)
-                .orElseThrow(() -> new RuntimeException("No Prayer Interactions found for content ID: " + contentId));
+    public List<PrayerInteraction> findByPrayerRequest_ContentId(Long contentId) {
+        return prayerInteractionRepository.findByPrayerRequest_ContentId(contentId);
     }
 
     @Override
-    public List<PrayerInteraction> findByUserId(Long userId) {
-        return List.of();
+    public List<PrayerInteraction> findByUser_Id(Long userId) {
+        return prayerInteractionRepository.findByUser_Id(userId);
     }
 
     @Override
-    public boolean hasUserPrayedForContent(Long userId, Long contentId) {
-        return false;
+    public List<PrayerInteraction> findAll() {
+        return prayerInteractionRepository.findAll();
+    }
+
+    @Override
+    public boolean hasUserPrayedForContent(Long userId, String contentId) {
+        return prayerInteractionRepository.existsByUser_IdAndPrayerRequest_ContentId(userId, contentId);
     }
 
     @Override
