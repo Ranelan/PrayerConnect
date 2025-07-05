@@ -9,5 +9,5 @@ public interface PrayerInteractionRepository extends JpaRepository <PrayerIntera
     List<PrayerInteraction> findAll();
      List<PrayerInteraction> findByUser_Id(Long userId);
      List<PrayerInteraction> findByPrayerRequest_ContentId(Long contentId);
-    boolean existsByUser_IdAndPrayerRequest_ContentId(Long userId, String contentId);
+    boolean existsByUser_IdAndPrayerRequest_ContentId(Long userId, Long contentId);
 }

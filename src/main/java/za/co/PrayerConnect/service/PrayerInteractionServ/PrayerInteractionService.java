@@ -30,7 +30,7 @@ public class PrayerInteractionService implements IPrayerInteractionService{
     }
 
     @Override
-    public boolean hasUserPrayedForContent(Long userId, String contentId) {
+    public boolean hasUserPrayedForContent(Long userId, Long contentId) {
         return prayerInteractionRepository.existsByUser_IdAndPrayerRequest_ContentId(userId, contentId);
     }
 
@@ -48,18 +48,16 @@ public class PrayerInteractionService implements IPrayerInteractionService{
     @Override
     public PrayerInteraction update(PrayerInteraction entity) {
         return prayerInteractionRepository.findById(entity.getId())
-                .map(existing -> {
-                    PrayerInteraction updated = new PrayerInteraction.PrayerInteractionBuilder()
-                            .copy(existing)
-                            .setUser(entity.getUser())
-                            .setId(entity.getId())
-                            .setDatePrayed(entity.getDatePrayed())
-                            .setPrayerRequest(entity.getPrayerRequest())
-                            .build();
-                    return prayerInteractionRepository.save(updated);
-                })
+                .map(existing -> new PrayerInteraction.PrayerInteractionBuilder()
+                        .copy(existing)
+                        .setUser(entity.getUser())
+                        .setDatePrayed(entity.getDatePrayed())
+                        .setPrayerRequest(entity.getPrayerRequest())
+                        .build())
+                .map(prayerInteractionRepository::save)
                 .orElseThrow(() -> new RuntimeException("Prayer Interaction not found with id: " + entity.getId()));
     }
+
 
     @Override
     public void deleteById(Long aLong) {

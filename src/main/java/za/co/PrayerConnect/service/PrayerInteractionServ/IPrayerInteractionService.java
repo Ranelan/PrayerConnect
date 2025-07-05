@@ -9,7 +9,7 @@ public interface IPrayerInteractionService extends IService<PrayerInteraction, L
      List<PrayerInteraction> findByPrayerRequest_ContentId(Long contentId);
         List<PrayerInteraction> findByUser_Id(Long userId);
         List<PrayerInteraction> findAll();
-        boolean hasUserPrayedForContent(Long userId, String contentId);
+        boolean hasUserPrayedForContent(Long userId, Long contentId);
 
 
 }
