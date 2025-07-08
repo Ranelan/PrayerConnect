@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.PrayerConnect.domain.PrayerInteraction;
-import za.co.PrayerConnect.dto.PrayerIneractionDto;
 import za.co.PrayerConnect.service.PrayerInteractionServ.PrayerInteractionService;
 
 import java.util.List;
