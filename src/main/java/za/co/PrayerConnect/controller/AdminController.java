@@ -5,9 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.PrayerConnect.domain.Admin;
 import za.co.PrayerConnect.domain.RegularUser;
+import za.co.PrayerConnect.dto.AdminDto;
 import za.co.PrayerConnect.service.AdminServ.AdminService;
 import za.co.PrayerConnect.service.RegularUserServ.RegularUserService;
 import za.co.PrayerConnect.util.JwtUtil;
+import za.co.PrayerConnect.util.AdminMapper;
+import za.co.PrayerConnect.dto.AdminDto;
+
 
 @RestController
 @RequestMapping("/api/admins")
@@ -21,15 +25,17 @@ public class AdminController {
     private RegularUserService regularUserService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody Admin admin) {
+    public ResponseEntity<?> create(@RequestBody AdminDto adminDTO) {
         try {
+            Admin admin = AdminMapper.toEntity(adminDTO, "defaultPassword123"); // handle password securely
             Admin savedAdmin = adminService.save(admin);
-            return ResponseEntity.ok(savedAdmin);
+            return ResponseEntity.ok(AdminMapper.toDTO(savedAdmin));
         } catch (Exception e) {
-            e.printStackTrace(); // Log the error for debugging
-            return ResponseEntity.status(500).body("Failed to create an Admin account: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Failed to create Admin: " + e.getMessage());
         }
     }
+
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody Admin admin) {
@@ -74,21 +80,23 @@ public class AdminController {
         return ResponseEntity.notFound().build();
     }
 
-   @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateAdmin(@PathVariable Long id, @RequestBody Admin admin) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateAdmin(@PathVariable Long id, @RequestBody AdminDto adminDto) {
         try {
             Admin existingAdmin = adminService.findById(id);
             if (existingAdmin == null) {
                 return ResponseEntity.notFound().build();
             }
-            admin.setId(id);
-            Admin updatedAdmin = adminService.save(admin);
-            return ResponseEntity.ok(updatedAdmin);
+            adminDto.setId(id);
+            Admin updated = AdminMapper.toEntity(adminDto, existingAdmin.getPassword()); // keep existing password
+            Admin saved = adminService.save(updated);
+            return ResponseEntity.ok(AdminMapper.toDTO(saved));
         } catch (Exception e) {
-            e.printStackTrace(); // Log the error for debugging
-            return ResponseEntity.status(500).body("Failed to update Admin account: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Failed to update Admin: " + e.getMessage());
         }
     }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteAdmin(@PathVariable Long id) {
@@ -102,13 +110,14 @@ public class AdminController {
     }
 
     @GetMapping("/findById/{id}")
-    public ResponseEntity<Admin> findById(@PathVariable Long id) {
+    public ResponseEntity<AdminDto> findById(@PathVariable Long id) {
         Admin admin = adminService.findById(id);
         if (admin != null) {
-            return ResponseEntity.ok(admin);
+            return ResponseEntity.ok(AdminMapper.toDTO(admin));
         }
         return ResponseEntity.notFound().build();
     }
+
 
     @PutMapping("/blockUser/{id}")
     public ResponseEntity<?> blockUser(@PathVariable Long id) {
