@@ -33,9 +33,8 @@ public class Helper {
     }
 
     public static boolean isValidPassword(String password) {
-        // Minimum 6 characters, at least 1 letter and 1 number
         if (isNullOrEmpty(password)) return false;
-        String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$";
+        String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d).{6,}$";
         return Pattern.matches(passwordRegex, password);
     }
     public static boolean isValidAge(int age) {
