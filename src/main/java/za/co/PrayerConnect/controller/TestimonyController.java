@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.PrayerConnect.domain.Testimony;
-import za.co.PrayerConnect.repository.TestimonyRepository;
+import za.co.PrayerConnect.dto.TestimonyDto;
 import za.co.PrayerConnect.service.TestimonyServ.TestimonyService;
+import za.co.PrayerConnect.util.TestimonyMapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/testimonies")
@@ -16,87 +18,109 @@ public class TestimonyController {
     @Autowired
     private TestimonyService testimonyService;
 
+    @Autowired
+    private TestimonyMapper testimonyMapper;
 
+    // Create
     @PostMapping("/create")
-    public ResponseEntity<Testimony> create(@RequestBody Testimony testimony) {
-       try{
-           Testimony savedTestimony = testimonyService.save(testimony);
-
-           return ResponseEntity.ok(savedTestimony);
-       } catch (Exception e) {
-           return ResponseEntity.status(500).body(null); // Handle error appropriately
-       }
-    }
-
-    @PostMapping("/update")
-    public ResponseEntity<Testimony> update(@RequestBody Testimony testimony) {
-        try{
-            Testimony updatedTestimony = testimonyService.update(testimony);
-            if (updatedTestimony != null) {
-                return ResponseEntity.ok(updatedTestimony);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(null); // Handle error appropriately
-        }
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        try{
-            testimonyService.deleteById(id);
-            return ResponseEntity.ok().build();
-        }
-        catch (Exception e) {
-            return ResponseEntity.status(500).build(); // Handle error appropriately
-        }
-    }
-
-    @GetMapping("/findById/{id}")
-    public ResponseEntity<Testimony> findById(@PathVariable Long id) {
+    public ResponseEntity<TestimonyDto> create(@RequestBody TestimonyDto dto) {
         try {
-            Testimony testimony = testimonyService.findById(id);
-            if (testimony != null) {
-                return ResponseEntity.ok(testimony);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(null); // Handle error appropriately
-        }
-    }
-
-    @GetMapping("/findByUserId/{userId}")
-    public ResponseEntity<List<Testimony>> findByUserId(@PathVariable Long userId) {
-        try {
-            List<Testimony> testimonies = testimonyService.findByUserId(userId);
-            return testimonies.isEmpty() ?
-                    ResponseEntity.notFound().build() :
-                    ResponseEntity.ok(testimonies);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
-        }
-    }
-
-    @GetMapping("/findByContentId/{contentId}")
-    public ResponseEntity<List<Testimony>> findByContentId(@PathVariable Long contentId) {    try {
-        List<Testimony> testimonies = testimonyService.findByPrayerRequest_ContentId(contentId);
-        return testimonies.isEmpty() ?
-                ResponseEntity.notFound().build() :
-                ResponseEntity.ok(testimonies);
-    } catch (Exception e) {
-        return ResponseEntity.status(500).body(null);
-    }
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<?> findAll() {
-        try {
-            return ResponseEntity.ok(testimonyService.findAll());
+            Testimony testimony = testimonyMapper.toEntity(dto);
+            Testimony saved = testimonyService.save(testimony);
+            return ResponseEntity.ok(testimonyMapper.toDto(saved));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("Error retrieving testimonies");
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    // Update
+    @PutMapping("/update")
+    public ResponseEntity<TestimonyDto> update(@RequestBody TestimonyDto dto) {
+        try {
+            Testimony updated = testimonyService.update(testimonyMapper.toEntity(dto));
+            if (updated != null) {
+                return ResponseEntity.ok(testimonyMapper.toDto(updated));
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    // Delete
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        try {
+            testimonyService.deleteById(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    // Find by ID
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<TestimonyDto> findById(@PathVariable Long id) {
+        try {
+            Testimony testimony = testimonyService.findById(id);
+            return (testimony != null)
+                    ? ResponseEntity.ok(testimonyMapper.toDto(testimony))
+                    : ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    // Find by userId
+    @GetMapping("/findByUserId/{userId}")
+    public ResponseEntity<List<TestimonyDto>> findByUserId(@PathVariable Long userId) {
+        try {
+            List<Testimony> list = testimonyService.findByUserId(userId);
+            if (list.isEmpty()) return ResponseEntity.notFound().build();
+
+            List<TestimonyDto> dtos = list.stream()
+                    .map(testimonyMapper::toDto)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(dtos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    // Find by contentId
+    @GetMapping("/findByContentId/{contentId}")
+    public ResponseEntity<List<TestimonyDto>> findByContentId(@PathVariable Long contentId) {
+        try {
+            List<Testimony> list = testimonyService.findByPrayerRequest_ContentId(contentId);
+            if (list.isEmpty()) return ResponseEntity.notFound().build();
+
+            List<TestimonyDto> dtos = list.stream()
+                    .map(testimonyMapper::toDto)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(dtos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    // Get all
+    @GetMapping("/all")
+    public ResponseEntity<List<TestimonyDto>> findAll() {
+        try {
+            List<TestimonyDto> dtos = testimonyService.findAll().stream()
+                    .map(testimonyMapper::toDto)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(dtos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
         }
     }
 }
