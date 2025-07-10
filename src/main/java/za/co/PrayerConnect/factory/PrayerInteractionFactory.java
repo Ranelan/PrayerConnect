@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 
 public class PrayerInteractionFactory {
 
-    public static PrayerInteraction createPrayerInteraction(Long id, LocalDateTime datePrayed, RegularUser user, PrayerRequest prayerRequest){
+    public static PrayerInteraction createPrayerInteraction( LocalDateTime datePrayed, RegularUser user, PrayerRequest prayerRequest){
 
-        if(Helper.isValidDateTime(datePrayed)||
+        if(!Helper.isValidDateTime(datePrayed)||
                 user==null||
                 prayerRequest==null){
 
@@ -19,7 +19,7 @@ public class PrayerInteractionFactory {
         }
 
         return new PrayerInteraction.PrayerInteractionBuilder()
-                .setId(id)
+                //.setId(id)
                 .setDatePrayed(datePrayed)
                 .setUser(user)
                 .setPrayerRequest(prayerRequest)
