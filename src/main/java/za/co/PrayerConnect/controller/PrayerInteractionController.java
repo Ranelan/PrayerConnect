@@ -1,13 +1,15 @@
 package za.co.PrayerConnect.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.PrayerConnect.domain.PrayerInteraction;
+import za.co.PrayerConnect.dto.PrayerInteractionDto;
 import za.co.PrayerConnect.service.PrayerInteractionServ.PrayerInteractionService;
+import za.co.PrayerConnect.util.PrayerInteractionMapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/prayerInteraction")
@@ -16,53 +18,63 @@ public class PrayerInteractionController {
     @Autowired
     private PrayerInteractionService prayerInteractionService;
 
+    @Autowired
+    private PrayerInteractionMapper prayerInteractionMapper;
 
     @PostMapping("/create")
-    public ResponseEntity<PrayerInteraction> create(@RequestBody PrayerInteraction prayerInteraction) {
-     try{
-         PrayerInteraction saved = prayerInteractionService.save(prayerInteraction);
-         return ResponseEntity.ok(saved);
-     } catch (Exception e) {
-         e.printStackTrace(); // Log the error for debugging
-         return ResponseEntity.status(500).body(null);
-     }
+    public ResponseEntity<PrayerInteractionDto> create(@RequestBody PrayerInteractionDto dto) {
+        try {
+            PrayerInteraction entity = prayerInteractionMapper.toEntity(dto);
+            PrayerInteraction saved = prayerInteractionService.save(entity);
+            return ResponseEntity.ok(prayerInteractionMapper.toDto(saved));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
     }
 
     @GetMapping("/findById/{id}")
-    public ResponseEntity<PrayerInteraction> findById(@PathVariable Long id) {
+    public ResponseEntity<PrayerInteractionDto> findById(@PathVariable Long id) {
         try {
-            PrayerInteraction prayerInteraction = prayerInteractionService.findById(id);
-            if (prayerInteraction != null) {
-                return ResponseEntity.ok(prayerInteraction);
+            PrayerInteraction entity = prayerInteractionService.findById(id);
+            if (entity != null) {
+                return ResponseEntity.ok(prayerInteractionMapper.toDto(entity));
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body(null);
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @GetMapping("/findByUser/{userId}")
-    public ResponseEntity<List<PrayerInteraction>> getByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<PrayerInteractionDto>> getByUserId(@PathVariable Long userId) {
         try {
-            return ResponseEntity.ok(prayerInteractionService.findByUser_Id(userId));
+            List<PrayerInteractionDto> dtos = prayerInteractionService.findByUser_Id(userId)
+                    .stream()
+                    .map(prayerInteractionMapper::toDto)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(dtos);
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
+            return ResponseEntity.status(500).build();
         }
     }
 
     @GetMapping("/findByPrayerRequest/{prayerRequestId}")
-    public ResponseEntity<List<PrayerInteraction>> getByContentId(@PathVariable Long contentId) {
+    public ResponseEntity<List<PrayerInteractionDto>> getByContentId(@PathVariable Long prayerRequestId) {
         try {
-            return ResponseEntity.ok(prayerInteractionService.findByPrayerRequest_ContentId(contentId));
+            List<PrayerInteractionDto> dtos = prayerInteractionService.findByPrayerRequest_ContentId(prayerRequestId)
+                    .stream()
+                    .map(prayerInteractionMapper::toDto)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(dtos);
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
+            return ResponseEntity.status(500).build();
         }
     }
 
-
-    @GetMapping("/HasPrayed")
+    @GetMapping("/hasPrayed")
     public ResponseEntity<Boolean> hasUserPrayed(
             @RequestParam Long userId,
             @RequestParam Long contentId) {
@@ -75,8 +87,16 @@ public class PrayerInteractionController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<PrayerInteraction>> getAll() {
-        return ResponseEntity.ok(prayerInteractionService.findAll());
+    public ResponseEntity<List<PrayerInteractionDto>> getAll() {
+        try {
+            List<PrayerInteractionDto> dtos = prayerInteractionService.findAll()
+                    .stream()
+                    .map(prayerInteractionMapper::toDto)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(dtos);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
     }
 
     @DeleteMapping("/delete/{id}")
@@ -88,8 +108,4 @@ public class PrayerInteractionController {
             return ResponseEntity.status(404).build();
         }
     }
-
-
-
-
 }
