@@ -11,10 +11,10 @@ import java.util.List;
 
 public class PrayerRequestFactory {
 
-    public static PrayerRequest createPrayerRequest(Long contentId, String title, String message, LocalDateTime dateSubmitted, boolean isAnonymous, List<ApprovalStatus> approvalStatuses, LocalDateTime reviewedAt, String reviewComment, User user, Admin admin)  {
+    public static PrayerRequest createPrayerRequest(String title, String message, LocalDateTime dateSubmitted, boolean isAnonymous, List<ApprovalStatus> approvalStatuses, LocalDateTime reviewedAt, String reviewComment, User user, Admin admin)  {
 
         if(Helper.isNullOrEmpty(title)||
-        Helper.isValidMessage(message)||
+        !Helper.isValidMessage(message)||
                 !Helper.isValidDateTime(dateSubmitted)||
                 approvalStatuses==null||approvalStatuses.isEmpty()||
                 !Helper.isValidDateTime(reviewedAt)||
