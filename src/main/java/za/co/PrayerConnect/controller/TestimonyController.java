@@ -21,7 +21,6 @@ public class TestimonyController {
     @Autowired
     private TestimonyMapper testimonyMapper;
 
-    // Create
     @PostMapping("/create")
     public ResponseEntity<TestimonyDto> create(@RequestBody TestimonyDto dto) {
         try {
@@ -34,7 +33,6 @@ public class TestimonyController {
         }
     }
 
-    // Update
     @PutMapping("/update")
     public ResponseEntity<TestimonyDto> update(@RequestBody TestimonyDto dto) {
         try {
@@ -50,7 +48,6 @@ public class TestimonyController {
         }
     }
 
-    // Delete
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         try {
@@ -62,7 +59,6 @@ public class TestimonyController {
         }
     }
 
-    // Find by ID
     @GetMapping("/findById/{id}")
     public ResponseEntity<TestimonyDto> findById(@PathVariable Long id) {
         try {
@@ -76,7 +72,6 @@ public class TestimonyController {
         }
     }
 
-    // Find by userId
     @GetMapping("/findByUserId/{userId}")
     public ResponseEntity<List<TestimonyDto>> findByUserId(@PathVariable Long userId) {
         try {
@@ -93,7 +88,6 @@ public class TestimonyController {
         }
     }
 
-    // Find by contentId
     @GetMapping("/findByContentId/{contentId}")
     public ResponseEntity<List<TestimonyDto>> findByContentId(@PathVariable Long contentId) {
         try {
@@ -110,7 +104,6 @@ public class TestimonyController {
         }
     }
 
-    // Get all
     @GetMapping("/all")
     public ResponseEntity<List<TestimonyDto>> findAll() {
         try {
