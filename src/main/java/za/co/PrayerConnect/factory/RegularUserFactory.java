@@ -5,7 +5,7 @@ import za.co.PrayerConnect.util.Helper;
 
 public class RegularUserFactory {
 
-    public RegularUser createRegularUser(Long id, String fullName, String email, String password, int age, boolean isBlocked) {
+    public RegularUser createRegularUser(String fullName, String email, String password, int age, boolean isBlocked) {
 
         if(Helper.isNullOrEmpty(fullName)||
             !Helper.isValidEmail(email)||
@@ -15,7 +15,7 @@ public class RegularUserFactory {
     }
 
         return new RegularUser.RegularUserBuilder()
-                .setId(id)
+                //.setId(id)
                 .setFullName(fullName)
                 .setEmail(email)
                 .setPassword(password)
