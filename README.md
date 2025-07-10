@@ -1,6 +1,6 @@
 # PrayerConnect
 
-PrayerConnect is a Java Spring Boot application designed to facilitate the submission, review, and management of prayer requests and testimonies. It provides a secure platform where users can submit prayer requests and testimonies, which can be reviewed and managed by admins.
+PrayerConnect is a Java Spring Boot application designed to facilitate the submission, review, and management of prayer requests and testimonies. It provides a secure platform where users can submit requests and share testimonies with privacy and security.
 
 ## Features
 
