@@ -63,6 +63,12 @@ public class RegularUserService implements IRegularUserService {
 
     @Override
     public RegularUser save(RegularUser entity) {
+        Optional<RegularUser> existing = regularUserRepository.findByEmail(entity.getEmail());
+
+        if (existing.isPresent() && (entity.getId() == null || !existing.get().getId().equals(entity.getId()))) {
+            throw new IllegalArgumentException("Email already exists.");
+        }
+
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         return regularUserRepository.save(entity);
     }

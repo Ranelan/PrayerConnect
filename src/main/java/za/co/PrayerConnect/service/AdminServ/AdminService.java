@@ -30,7 +30,14 @@ public class AdminService implements IAdminService {
 
     @Override
     public Admin save(Admin entity) {
+
+        Optional<Admin> existing = adminRepository.findByEmail(entity.getEmail());
+        if (existing.isPresent() && (entity.getId() == null || !existing.get().getId().equals(entity.getId()))) {
+            throw new IllegalArgumentException("Email already exists.");
+        }
+
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+
         if (entity.getLastLogin() == null) {
             entity = new Admin.AdminBuilder()
                     .copy(entity)

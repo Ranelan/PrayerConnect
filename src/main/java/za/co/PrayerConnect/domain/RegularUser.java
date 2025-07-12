@@ -31,6 +31,10 @@ public class RegularUser extends User {
         return isBlocked;
     }
 
+    public boolean getIsBlocked() {
+        return isBlocked;
+    }
+
     public void setIsBlocked(boolean blocked) {
         this.isBlocked = blocked;
     }
