@@ -14,6 +14,7 @@ import za.co.PrayerConnect.service.RegularUserServ.RegularUserService;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -170,18 +171,21 @@ public class AdminService implements IAdminService {
 
 
     @Override
-    public Optional<RegularUser> getAllUsersByEmail(String email) {
-        return Optional.ofNullable(regularUserService.findByEmail(email));
+    public List<RegularUser> getAllUsersByEmail(String email) {
+        List<RegularUser> users = Collections.singletonList(regularUserService.findByEmail(email));
+        return users.isEmpty() ? Collections.emptyList() : users;
     }
 
     @Override
-    public Optional<RegularUser> getAllUsersByAge(int age) {
-        return Optional.ofNullable(regularUserService.findByAge(age));
+    public List<RegularUser> getAllUsersByAge(int age) {
+        List<RegularUser> users = regularUserService.findByAge(age);
+        return users.isEmpty() ? Collections.emptyList() : users;
     }
 
     @Override
-    public Optional<RegularUser> getAllUsersByFullName(String fullName) {
-        return Optional.ofNullable(regularUserService.findByFullName(fullName));
+    public List<RegularUser> getAllUsersByFullName(String fullName) {
+        List<RegularUser> users = regularUserService.findByFullName(fullName);
+        return users.isEmpty() ? Collections.emptyList() : users;
     }
 
 //    @Override

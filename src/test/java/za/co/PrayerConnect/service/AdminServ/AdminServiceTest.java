@@ -28,7 +28,6 @@ class AdminServiceTest {
 
     @Autowired
     private AdminService adminService;
-
     private Admin admin;
 
     @BeforeAll

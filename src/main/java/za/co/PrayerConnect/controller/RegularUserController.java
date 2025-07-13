@@ -56,22 +56,24 @@ public class RegularUserController {
     }
 
     @GetMapping("/full-name/{fullName}")
-    public ResponseEntity<RegularUser> getByFullName(@PathVariable String fullName) {
-        RegularUser user = regularUserService.findByFullName(fullName);
-        if (user != null) {
-            return ResponseEntity.ok(user);
+    public ResponseEntity<?> getByFullName(@PathVariable String fullName) {
+        var users = regularUserService.findByFullName(fullName);
+        if (!users.isEmpty()) {
+            return ResponseEntity.ok(users);
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No users found with full name: " + fullName);
     }
 
+
     @GetMapping("/age/{age}")
-    public ResponseEntity<RegularUser> getByAge(@PathVariable int age) {
-        RegularUser user = regularUserService.findByAge(age);
-        if (user != null) {
-            return ResponseEntity.ok(user);
+    public ResponseEntity<?> getByAge(@PathVariable int age) {
+        var users = regularUserService.findByAge(age);
+        if (!users.isEmpty()) {
+            return ResponseEntity.ok(users);
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No users found with age: " + age);
     }
+
 
     @GetMapping("/findById/{id}")
     public ResponseEntity<RegularUser> getById(@PathVariable String id) {

@@ -45,15 +45,14 @@ public class RegularUserService implements IRegularUserService {
     }
 
     @Override
-    public RegularUser findByFullName(String fullName) {
-        return regularUserRepository.findByFullName(fullName)
-                .orElse(null);
+    public List<RegularUser> findByFullName(String fullName) {
+        return regularUserRepository.findByFullName(fullName);
     }
 
+
     @Override
-    public RegularUser findByAge(int age) {
-        return regularUserRepository.findByAge(age)
-                .orElse(null);
+    public List<RegularUser> findByAge(int age) {
+        return regularUserRepository.findByAge(age);
     }
 
     @Override

@@ -23,7 +23,7 @@ public interface IRegularUserService extends IService<RegularUser, String> {
      * @return RegularUser if found, null otherwise
      */
     RegularUser findByEmail(String email);
-    RegularUser findByFullName(String fullName);
-    RegularUser findByAge(int age);
+    List<RegularUser> findByFullName(String fullName);
+    List<RegularUser> findByAge(int age);
     List<RegularUser> findAll();
 }

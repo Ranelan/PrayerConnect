@@ -63,22 +63,24 @@ public class AdminController {
     }
 
     @GetMapping("/getAllByFullName/{fullName}")
-    public ResponseEntity<RegularUser> getAllUsersByFullName(@PathVariable String fullName) {
-        RegularUser user = regularUserService.findByFullName(fullName);
-        if (user != null) {
-            return ResponseEntity.ok(user);
+    public ResponseEntity<?> getAllUsersByFullName(@PathVariable String fullName) {
+        var users = regularUserService.findByFullName(fullName);
+        if (!users.isEmpty()) {
+            return ResponseEntity.ok(users);
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(404).body("No users found with full name: " + fullName);
     }
 
+
     @GetMapping("/getAllByAge/{age}")
-    public ResponseEntity<RegularUser> getAllUsersByAge(@PathVariable int age) {
-        RegularUser user = regularUserService.findByAge(age);
-        if (user != null) {
-            return ResponseEntity.ok(user);
+    public ResponseEntity<?> getAllUsersByAge(@PathVariable int age) {
+        var users = regularUserService.findByAge(age);
+        if (!users.isEmpty()) {
+            return ResponseEntity.ok(users);
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(404).body("No users found with age: " + age);
     }
+
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateAdmin(@PathVariable Long id, @RequestBody AdminDto adminDto) {
