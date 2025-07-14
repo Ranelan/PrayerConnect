@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface PrayerRequestRepository extends JpaRepository<PrayerRequest, Long> {
 
     Optional<PrayerRequest> findByContentId(Long contentId);
-    Optional<PrayerRequest> findByTitle(String title);
+    List<PrayerRequest> findByTitle(String title);
     List<PrayerRequest> findAll();
 }

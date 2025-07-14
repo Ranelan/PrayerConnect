@@ -6,6 +6,7 @@ import za.co.PrayerConnect.domain.PrayerRequest;
 import za.co.PrayerConnect.repository.PrayerRequestRepository;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,9 +69,9 @@ public class PrayerRequestService implements IPrayerRequestService {
         return prayerRequestRepository.findAll();
     }
 
-    @Override
-    public Optional<PrayerRequest> findByTitle(String title) {
-        return prayerRequestRepository.findByTitle(title);
+    public List<PrayerRequest> findByTitle(String title) {
+        List<PrayerRequest> found = prayerRequestRepository.findByTitle(title);
+        return found.isEmpty() ? Collections.emptyList() : found;
     }
 
     @Override
