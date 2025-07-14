@@ -102,16 +102,19 @@ public class PrayerRequestController {
 
 
     @GetMapping("/findByTitle/{title}")
-    public ResponseEntity<PrayerRequest> findByTitle(@PathVariable String title) {
+    public ResponseEntity<List<PrayerRequest>> findByTitle(@PathVariable String title) {
         try {
-            return prayerRequestService.findByTitle(title)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.notFound().build());
+            List<PrayerRequest> found = prayerRequestService.findByTitle(title);
+            if (found.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(found);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(null);
         }
     }
+
 
 
     @GetMapping("/findByContentId/{contentId}")

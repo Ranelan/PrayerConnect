@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface IPrayerRequestService extends IService<PrayerRequest, Long> {
 
     List<PrayerRequest> findAll();
-    Optional<PrayerRequest> findByTitle(String title);
+    List<PrayerRequest> findByTitle(String title);
     Optional<PrayerRequest> findByContentId(Long contentId);
 }
