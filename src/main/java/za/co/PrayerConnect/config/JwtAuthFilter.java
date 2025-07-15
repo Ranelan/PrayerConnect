@@ -55,13 +55,18 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    // Adjust this if you want some endpoints to not require JWT
+
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
         System.out.println("JwtAuthFilter checking path: " + path);
-        return path.startsWith("/api/admins/create") ||
-                path.startsWith("/api/admins/authenticate");
-//                || path.startsWith("/api/prayer-requests/**");
+        return path.equals("/api/admins/create") ||
+                path.equals("/api/admins/authenticate") ||
+                path.startsWith("/api/prayer-requests/") ||
+                path.equals("/api/regular-users/create") ||
+                path.startsWith("/api/admins/blockUser") ||
+                path.startsWith("/api/admins/unblockUser") ||
+                path.startsWith("/api/admins/deleteUser");
     }
+
 }
