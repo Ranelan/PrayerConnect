@@ -1,17 +1,18 @@
 # PrayerConnect
 
-PrayerConnect is a Java Spring Boot application designed to facilitate the submission, review, and management of prayer requests and testimonies. It provides a secure platform where users can submit requests and share testimonies with privacy and security.
+PrayerConnect is a Java Spring Boot application designed to facilitate the submission, review, and management of prayer requests and testimonies. It provides a secure platform where users can submit requests and share testimonies, with a robust approval and management workflow.
 
 ## Features
 
 - **User Roles:** Supports both regular users and admin users, each with distinct permissions and capabilities.
-- **Prayer Requests:** Users can create and submit prayer requests, which can be reviewed and commented on by admins.
+- **Prayer Requests:** Users can create and submit prayer requests, which can be reviewed and commented on by admins. (Recent updates: PrayerRequest tests updated and passing; requests now returned as a list)
 - **Testimonies:** Users can submit testimonies, and admins can review and manage them.
 - **Anonymous Submissions:** Users have the option to submit prayer requests and testimonies anonymously.
 - **Approval Workflow:** Admins can review, comment, and update the approval status of each prayer request and testimony.
 - **JWT-based Authentication:** Secure access to endpoints using JSON Web Token (JWT) authentication.
-- **Spring Security Integration:** Configured security with custom authentication filters.
+- **Spring Security Integration:** Configured security with custom authentication filters. SecurityConfig updated to allow access to Testimony endpoints.
 - **DTO Pattern:** Uses Data Transfer Objects for safely transporting prayer request and testimony data.
+- **Unit Test Coverage:** Factory, Service and Controller layers tests for PrayerRequest, PrayerInteraction, AdminService, RegularUser and Testimony have been updated and are passing.
 
 ## Getting Started
 
@@ -25,43 +26,43 @@ PrayerConnect is a Java Spring Boot application designed to facilitate the submi
 ### Installation
 
 1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/Ranelan/PrayerConnect.git
-   cd PrayerConnect
-   ```
+    ```bash
+    git clone https://github.com/Ranelan/PrayerConnect.git
+    cd PrayerConnect
+    ```
 
 2. **Configure Environment**
-   - Set up your database connection in `src/main/resources/application.properties`.
-   - Add your JWT secret in the same properties file:
-     ```
-     jwt.secret=YOUR_SECRET_KEY_HERE
-     ```
+    - Set up your database connection in `src/main/resources/application.properties`.
+    - Add your JWT secret in the same properties file:
+      ```
+      jwt.secret=YOUR_SECRET_KEY_HERE
+      ```
 
 3. **Build and Run**
-   - Using Maven:
-     ```bash
-     mvn spring-boot:run
-     ```
-   - Or using Gradle:
-     ```bash
-     ./gradlew bootRun
-     ```
+    - Using Maven:
+      ```bash
+      mvn spring-boot:run
+      ```
+    - Or using Gradle:
+      ```bash
+      ./gradlew bootRun
+      ```
 
 4. **Access the Application**
-   - By default, the application runs on `http://localhost:8080`.
+    - By default, the application runs on `http://localhost:8080`.
 
 ## Usage
 
 - **API Endpoints:** (secured with JWT)
-  - `/api/prayerRequest/**` — For submitting and retrieving prayer requests
-  - `/api/testimony/**` — For submitting and retrieving testimonies
-  - `/api/admins/**` — Admin operations
-  - `/api/regular-users/**` — User operations
+    - `/api/prayerRequest/**` — For submitting and retrieving prayer requests
+    - `/api/testimony/**` — For submitting and retrieving testimonies
+    - `/api/admins/**` — Admin operations
+    - `/api/regular-users/**` — User operations
 
 - Obtain a JWT token by logging in, then include it in the `Authorization` header for API requests:
-  ```
-  Authorization: Bearer YOUR_JWT_TOKEN
-  ```
+    ```
+    Authorization: Bearer YOUR_JWT_TOKEN
+    ```
 
 ## Project Structure
 
@@ -69,7 +70,7 @@ PrayerConnect is a Java Spring Boot application designed to facilitate the submi
 - `domain/` — Entity classes (e.g., User, Admin, PrayerRequest, Testimony)
 - `dto/` — Data Transfer Objects
 - `config/` — Security and application configuration
-- `service/` — Business logic and service layer
+- `service/` — Business logic and service layer (Recent updates: Service tests and interaction logic improved)
 - `repository/` — Data access layer, including TestimonyRepository
 - `controller/` — Controllers, including TestimonyController
 
