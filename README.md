@@ -99,17 +99,9 @@ PrayerConnect uses [Spring Boot](https://spring.io/projects/spring-boot) for con
 
 ### Database Configuration
 
-By default, PrayerConnect uses H2 in-memory database for development. To use MySQL, PostgreSQL, or another database, update these properties:
+By default, PrayerConnect uses MYSQL database for development. To use PostgreSQL, or another database, update these properties:
 
-```properties
-# H2 (default)
-spring.datasource.url=jdbc:h2:mem:testdb
-spring.datasource.username=sa
-spring.datasource.password=
-spring.datasource.driver-class-name=org.h2.Driver
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 ```
-
 **Example for MySQL:**
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/prayerconnect
@@ -135,21 +127,6 @@ Change the server port (default: 8080):
 ```properties
 server.port=8080
 ```
-
-### Email/SMS (Optional)
-
-If you add notifications, configure SMTP or SMS gateway:
-
-```properties
-spring.mail.host=smtp.example.com
-spring.mail.port=587
-spring.mail.username=your_email@example.com
-spring.mail.password=your_email_password
-```
-
-### Environment Variables
-
-For production, use environment variables for sensitive data instead of hardcoding values.
 
 ---
 
