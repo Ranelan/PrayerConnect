@@ -80,7 +80,8 @@ PrayerConnect/
 │   │   ├── java/
 │   │   │   └── com/prayerconnect/
 │   │   │       ├── controller/
-│   │   │       ├── model/
+│   │   │       ├── Dto/
+│   │   │       ├── domain
 │   │   │       ├── repository/
 │   │   │       ├── service/
 │   │   │       └── PrayerConnectApplication.java
