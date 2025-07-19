@@ -3,14 +3,14 @@ FROM maven:3.9.6-eclipse-temurin-17-alpine as builder
 
 WORKDIR /app
 
-# Copy pom.xml and download dependencies first (to cache them)
+# Copy pom.xml and download dependencies first
 COPY pom.xml .
 RUN mvn dependency:go-offline
 
-# Copy the rest of the source code
+# Copy source
 COPY src ./src
 
-# Package the application
+# Build app (skip tests for faster build)
 RUN mvn clean package -DskipTests
 
 # ===== Stage 2: Run the app =====
@@ -18,11 +18,9 @@ FROM openjdk:17-jdk-alpine
 
 WORKDIR /app
 
-# Copy the built JAR from the builder stage
-COPY --from=builder /app/target/*.jar app.jar
+# Copy the executable JAR
+COPY --from=builder /app/target/Prayer-Connect-1.0-SNAPSHOT.jar app.jar
 
-# Expose the port your app runs on
 EXPOSE 8081
 
-# Run the JAR
 ENTRYPOINT ["java", "-jar", "app.jar"]
