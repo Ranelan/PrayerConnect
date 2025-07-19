@@ -138,17 +138,17 @@ Here are sample API calls using `curl`:
 ### Register a new user
 
 ```sh
-curl -X POST http://localhost:8080/api/register \
+curl -X POST http://localhost:8080/api/regular-user/create/
      -H "Content-Type: application/json" \
-     -d '{"username":"testuser","password":"yourpassword"}'
+     -d '{"fullname":"testuser","password":"yourpassword", "email": "youremail", "age": "yourage" }'
 ```
 
 ### Login (get JWT token)
 
 ```sh
-curl -X POST http://localhost:8080/api/login \
+curl -X POST http://localhost:8080/api/regular-user/authenticate/
      -H "Content-Type: application/json" \
-     -d '{"username":"testuser","password":"yourpassword"}'
+     -d '{"email":"testuser","password":"yourpassword"}'
 ```
 
 ### Create a prayer request
