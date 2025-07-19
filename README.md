@@ -140,7 +140,7 @@ Here are sample API calls using `curl`:
 ```sh
 curl -X POST http://localhost:8080/api/regular-user/create/
      -H "Content-Type: application/json" \
-     -d '{"fullname":"testuser","password":"yourpassword", "email": "youremail", "age": "yourage" }'
+     -d '{"fullname":"testuser","password":"yourpassword", "email": "youremail", "age": "yourage", "isBlooked": "false" }'
 ```
 
 ### Login (get JWT token)
@@ -170,14 +170,14 @@ curl http://localhost:8080/api/prayers
 
 ## API Reference
 
-| Endpoint                 | Method | Description                                    |
-|--------------------------|--------|------------------------------------------------|
-| `/api/register`          | POST   | Register a new user                            |
-| `/api/login`             | POST   | Log in and get JWT token                       |
-| `/api/prayers`           | GET    | Get all prayer requests                        |
-| `/api/prayers`           | POST   | Create a new prayer request (auth required)    |
-| `/api/prayers/{id}`      | PUT    | Update a prayer request (auth required)        |
-| `/api/prayers/{id}`      | DELETE | Delete a prayer request (auth required)        |
+| Endpoint                          | Method | Description                                    |
+|-----------------------------------|--------|------------------------------------------------|
+|`/api/regular-user/create'         | POST   | Register a new user                            |
+| `/api/regular-user/authenticate`  | POST   | Log in and get JWT token                       |
+| `/api/prayer-requests/all`        | GET    | Get all prayer requests                        |
+| `/api/prayer-requests/create`     | POST   | Create a new prayer request (auth required)    |
+| `/api/prayer-requests/{id}`       | PUT    | Update a prayer request (auth required)        |
+| `/api/prayer-requests/{id}`       | DELETE | Delete a prayer request (auth required)        |
 
 More details can be found in the controller classes in `src/main/java/com/prayerconnect/controller/`.
 
@@ -229,3 +229,5 @@ For questions, open an issue or email: raneyclassic@gmail.com
 
 **Tip:**  
 If you're new to Java or Spring Boot, check out the official [Spring Boot documentation](https://spring.io/projects/spring-boot) for helpful guides and tutorials!
+
+##Happy Coding!!!
