@@ -1,14 +1,28 @@
-# Use a lightweight OpenJDK image with Java 17
-FROM openjdk:17-jdk-alpine
+# ===== Stage 1: Build the app =====
+FROM maven:3.9.6-eclipse-temurin-17-alpine as builder
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy your built jar file into the container
-COPY target/Prayer-Connect-1.0-SNAPSHOT.jar app.jar
+# Copy pom.xml and download dependencies first (to cache them)
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# Expose port 8080 (default Spring Boot port)
+# Copy the rest of the source code
+COPY src ./src
+
+# Package the application
+RUN mvn clean package -DskipTests
+
+# ===== Stage 2: Run the app =====
+FROM openjdk:17-jdk-alpine
+
+WORKDIR /app
+
+# Copy the built JAR from the builder stage
+COPY --from=builder /app/target/*.jar app.jar
+
+# Expose the port your app runs on
 EXPOSE 8081
 
-# Run the jar file
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+# Run the JAR
+ENTRYPOINT ["java", "-jar", "app.jar"]
