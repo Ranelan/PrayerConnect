@@ -123,10 +123,10 @@ jwt.expirationMs=86400000
 
 ### Customizing the Server Port
 
-Change the server port (default: 8080):
+Change the server port (default: 8081):
 
 ```properties
-server.port=8080
+server.port=8081
 ```
 
 ---
@@ -138,7 +138,7 @@ Here are sample API calls using `curl`:
 ### Register a new user
 
 ```sh
-curl -X POST http://localhost:8080/api/regular-user/create/
+curl -X POST http://localhost:8081/api/regular-user/create/
      -H "Content-Type: application/json" \
      -d '{"fullname":"testuser","password":"yourpassword", "email": "youremail", "age": "yourage", "isBlooked": "false" }'
 ```
@@ -146,7 +146,7 @@ curl -X POST http://localhost:8080/api/regular-user/create/
 ### Login (get JWT token)
 
 ```sh
-curl -X POST http://localhost:8080/api/regular-user/authenticate/
+curl -X POST http://localhost:8081/api/regular-user/authenticate/
      -H "Content-Type: application/json" \
      -d '{"email":"testuser","password":"yourpassword"}'
 ```
@@ -154,7 +154,7 @@ curl -X POST http://localhost:8080/api/regular-user/authenticate/
 ### Create a prayer request
 
 ```sh
-curl -X POST http://localhost:8080/api/prayers \
+curl -X POST http://localhost:8081/api/prayers \
      -H "Authorization: Bearer <your_token>" \
      -H "Content-Type: application/json" \
      -d '{"title":"Pray for health","description":"Need prayers for my family"}'
@@ -163,7 +163,7 @@ curl -X POST http://localhost:8080/api/prayers \
 ### Get all prayer requests
 
 ```sh
-curl http://localhost:8080/api/prayers
+curl http://localhost:808/api/prayer-requests/all
 ```
 
 ---
