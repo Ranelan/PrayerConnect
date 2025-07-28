@@ -3,6 +3,7 @@ package za.co.PrayerConnect.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,9 +13,10 @@ public class Admin extends User {
     private String adminCode;
     private LocalDateTime lastLogin;
 
-    @ElementCollection(targetClass = Permissions.class)
+    @ElementCollection(targetClass = Permissions.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "admin_permissions", joinColumns = @JoinColumn(name = "admin_id"))
     @Enumerated(EnumType.STRING)
-    private List<Permissions> permissions;
+    private List<Permissions> permissions = new ArrayList<>();
 
     public Admin() {
         super();
@@ -25,18 +27,18 @@ public class Admin extends User {
         super(id, fullName, email, password, age);
         this.adminCode = adminCode;
         this.lastLogin = lastLogin;
-        this.permissions = permissions;
+        this.permissions = permissions != null ? permissions : new ArrayList<>();
     }
 
     public Admin(AdminBuilder builder) {
-       this.id = builder.id;
+        this.id = builder.id;
         this.fullName = builder.fullName;
         this.email = builder.email;
         this.password = builder.password;
         this.age = builder.age;
         this.adminCode = builder.adminCode;
         this.lastLogin = builder.lastLogin;
-        this.permissions = builder.permissions;
+        this.permissions = builder.permissions != null ? builder.permissions : new ArrayList<>();
     }
 
     public String getAdminCode() {
@@ -46,8 +48,13 @@ public class Admin extends User {
     public List<Permissions> getPermissions() {
         return permissions;
     }
+
     public LocalDateTime getLastLogin() {
         return lastLogin;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
@@ -61,10 +68,6 @@ public class Admin extends User {
                 ", password='" + password + '\'' +
                 ", age=" + age +
                 '}';
-    }
-
-    public void setId(Long id) {
-
     }
 
     public static class AdminBuilder {
@@ -125,7 +128,7 @@ public class Admin extends User {
             this.age = admin.age;
             this.adminCode = admin.adminCode;
             this.lastLogin = admin.lastLogin;
-            this.permissions = admin.permissions;
+            this.permissions = admin.permissions != null ? new ArrayList<>(admin.permissions) : new ArrayList<>();
             return this;
         }
 
@@ -133,8 +136,10 @@ public class Admin extends User {
             if (this.lastLogin == null) {
                 this.lastLogin = LocalDateTime.now(); // Automatically set if not provided
             }
+            if (this.permissions == null) {
+                this.permissions = new ArrayList<>();
+            }
             return new Admin(this);
         }
-
     }
 }
